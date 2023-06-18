@@ -1,3 +1,3 @@
-pub mod db;
+pub mod db_connection;
 
-pub use db::{connect, DbPool};
+pub use db_connection::*;

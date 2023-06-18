@@ -1,14 +1,11 @@
-use crate::config::Config;
-use crate::handlers::auth_handlers::AuthHandler;
-use crate::services::zkp_auth;
+use env_logger::{Builder, Env};
 use log::{error, info};
+use zkp_app::{
+    config::CONFIG, db::connect as db_connect, handlers::auth_handlers::AuthHandler,
+    services::zkp_auth,
+};
 use std::sync::Arc;
 use tonic::transport::Server;
-
-mod config;
-mod handlers;
-mod services;
-mod db;
 
 #[tokio::main]
 async fn main() {
@@ -19,22 +16,18 @@ async fn main() {
 }
 
 async fn run() -> Result<(), Box<dyn std::error::Error>> {
-    let config = Config::new()?;
+    Builder::from_env(Env::default().default_filter_or(&CONFIG.rust_log)).init();
 
-    // Start logging
-    env_logger::init();
+    let db_pool = Arc::new(db_connect(&CONFIG.database_url, CONFIG.max_connections).await?);
+    info!("Database connected");
 
-    // Start connection pool
-    let database_url = &config.database_url;
-    let db_pool = Arc::new(db::connect(database_url)?);
-
-    let address = format!("{}:{}", config.server_address, config.server_port).parse()?;
-
+    let address = format!("{}:{}", &CONFIG.server_address, &CONFIG.server_port).parse()?;
     info!("Server listening on {}", address);
 
-    // Start the gRPC server
     Server::builder()
-        .add_service(zkp_auth::auth_server::AuthServer::new(AuthHandler::new(db_pool.clone())))
+        .add_service(zkp_auth::auth_server::AuthServer::new(AuthHandler::new(
+            db_pool.clone(),
+        )))
         .serve(address)
         .await?;
 

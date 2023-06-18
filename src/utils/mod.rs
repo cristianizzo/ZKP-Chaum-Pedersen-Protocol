@@ -1,3 +1,3 @@
-pub mod db;
+pub mod zkp_utils;
 
-pub use db::{connect, DbPool};
+pub use zkp_utils::*;
