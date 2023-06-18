@@ -1,11 +1,11 @@
 use env_logger::{Builder, Env};
 use log::{error, info};
+use std::sync::Arc;
+use tonic::transport::Server;
 use zkp_app::{
     config::CONFIG, db::connect as db_connect, handlers::auth_handlers::AuthHandler,
     services::zkp_auth,
 };
-use std::sync::Arc;
-use tonic::transport::Server;
 
 #[tokio::main]
 async fn main() {

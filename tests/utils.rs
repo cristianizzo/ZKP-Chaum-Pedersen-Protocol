@@ -1,8 +1,8 @@
-use zkp_app::db::connect as db_connect;
-use zkp_app::handlers::auth_handlers::AuthHandler;
 use num_bigint::{BigInt, Sign};
 use rand::{distributions::Alphanumeric, Rng};
 use std::sync::Arc;
+use zkp_app::db::connect as db_connect;
+use zkp_app::handlers::auth_handlers::AuthHandler;
 
 // Generates a random alphanumeric string of a specified length.
 pub fn generate_random_string(length: usize) -> String {

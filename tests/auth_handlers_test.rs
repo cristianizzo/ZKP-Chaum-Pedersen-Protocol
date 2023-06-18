@@ -1,3 +1,4 @@
+use tonic::Request;
 use zkp_app::{
     config::CONFIG,
     models::user_exists,
@@ -9,7 +10,6 @@ use zkp_app::{
         calculate_default_hash, convert_string_to_bigint, perform_modular_exponentiation,
     },
 };
-use tonic::Request;
 
 use zkp_app::utils::{convert_hex_to_bigint, generate_random_bigint};
 
