@@ -1,0 +1,6 @@
+CREATE TABLE auth (
+    auth_id VARCHAR(255) PRIMARY KEY,
+    r1 TEXT NOT NULL,
+    r2 TEXT NOT NULL,
+    c TEXT NOT NULL
+);

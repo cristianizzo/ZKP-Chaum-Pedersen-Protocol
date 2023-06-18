@@ -1,0 +1,5 @@
+CREATE TABLE users (
+    auth_id VARCHAR(255) PRIMARY KEY,
+    y1 TEXT NOT NULL,
+    y2 TEXT NOT NULL
+);

@@ -1,6 +1,7 @@
-use diesel::Queryable;
+use sqlx::{PgPool, Postgres, Error as SqlxError};
+use sqlx::pool::PoolConnection;
 
-#[derive(Queryable)]
+#[derive(Debug, Clone)]
 pub struct User {
     pub user_id: String,
     pub y1: String,
